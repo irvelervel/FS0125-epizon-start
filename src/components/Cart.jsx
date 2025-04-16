@@ -1,14 +1,32 @@
 import { Col, Row, Button } from 'react-bootstrap'
 import { FaTrash } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
 
-const Cart = ({ cart = [] }) => {
+const Cart = () => {
+  // BOSS FINALE: il componente Cart deve LEGGERE dallo store e INNESCARE
+  // la creazione di nuovi stati (eliminare i libri dal carrello!)
+
+  const carrello = useSelector((state) => {
+    return state.cart.content // l'array
+  })
+
+  const dispatch = useDispatch()
+
   return (
     <Row>
       <Col sm={12}>
         <ul style={{ listStyle: 'none' }}>
-          {cart.map((book, i) => (
+          {carrello.map((book, i) => (
             <li key={i} className="my-4">
-              <Button variant="danger" onClick={() => {}}>
+              <Button
+                variant="danger"
+                onClick={() => {
+                  dispatch({
+                    type: 'REMOVE_FROM_CART',
+                    payload: i,
+                  })
+                }}
+              >
                 <FaTrash />
               </Button>
               <img
@@ -24,7 +42,7 @@ const Cart = ({ cart = [] }) => {
       <Row>
         <Col sm={12} className="fw-bold mb-3 ms-4">
           TOTALE:{' '}
-          {cart.reduce(
+          {carrello.reduce(
             (acc, currentValue) => acc + parseFloat(currentValue.price),
             0
           )}
