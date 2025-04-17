@@ -1,10 +1,14 @@
 import { Col, Row, Button } from 'react-bootstrap'
 import { FaShoppingCart } from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
-import { ADD_TO_CART } from '../redux/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCartAction } from '../redux/actions'
 
 const BookDetail = ({ bookSelected }) => {
   const dispatch = useDispatch()
+  // leggo il valore di user.name dallo store di Redux
+  const username = useSelector((state) => {
+    return state.user.name // all'avvio è stringa vuota!
+  })
 
   return (
     <div className="mt-3 mb-4 mb-lg-0">
@@ -34,18 +38,22 @@ const BookDetail = ({ bookSelected }) => {
                 <span className="fw-bold">Price:</span>&nbsp;
                 {bookSelected.price}$
               </p>
-              <Button
-                className="d-flex align-items-center"
-                onClick={() => {
-                  dispatch({
-                    type: ADD_TO_CART, // obbligatoria
-                    payload: bookSelected, // non obbligatoria, ma quasi sempre necessaria
-                  })
-                }}
-              >
-                <span className="me-2">AGGIUNGI AL</span>
-                <FaShoppingCart />
-              </Button>
+
+              {username ? (
+                // l'utente si è loggato
+                <Button
+                  className="d-flex align-items-center"
+                  onClick={() => {
+                    dispatch(addToCartAction(bookSelected))
+                  }}
+                >
+                  <span className="me-2">AGGIUNGI AL</span>
+                  <FaShoppingCart />
+                </Button>
+              ) : (
+                // l'utente NON si è loggato
+                <p>Effettua il login per comprare questo libro!</p>
+              )}
             </Col>
           </Row>
         </>

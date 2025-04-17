@@ -2,7 +2,7 @@
 // il reducer di Redux è una funzione pura che non manipola mai i suoi parametri
 // e ritorna sempre il NUOVO STATO per l'applicativo
 
-import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions'
+import { ADD_TO_CART, REMOVE_FROM_CART, SET_USERNAME } from '../actions'
 
 const initialState = {
   // qui inserisco lo stato iniziale dell'intera app!
@@ -12,7 +12,13 @@ const initialState = {
   cart: {
     content: [],
   },
+  user: {
+    name: '', // valore falsy inizialmente
+  },
 }
+
+// '' -> falsy
+// ' ' -> truthy
 
 // il reducer si sveglia ogni qualvolta una action viene "dispatchata"
 const mainReducer = (state = initialState, action) => {
@@ -56,9 +62,15 @@ const mainReducer = (state = initialState, action) => {
           }),
         },
       }
-    // ritornare sempre il NUOVO stato dell'applicativo
-    // case:
-    // ritornare sempre il NUOVO stato dell'applicativo
+    case SET_USERNAME:
+      // ritornare sempre il NUOVO stato dell'applicativo
+      return {
+        ...state, // questo per preservare cart!
+        user: {
+          ...state.user,
+          name: action.payload,
+        },
+      }
     default:
       // ritornare sempre il NUOVO stato dell'applicativo
       return state // se l'azione è sconosciuta, per NON FARE DANNI
