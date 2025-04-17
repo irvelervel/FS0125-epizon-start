@@ -2,6 +2,8 @@
 // il reducer di Redux è una funzione pura che non manipola mai i suoi parametri
 // e ritorna sempre il NUOVO STATO per l'applicativo
 
+import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions'
+
 const initialState = {
   // qui inserisco lo stato iniziale dell'intera app!
   // poichè in questo stato condiviso tendono a finire tantissime proprietà
@@ -12,11 +14,12 @@ const initialState = {
   },
 }
 
+// il reducer si sveglia ogni qualvolta una action viene "dispatchata"
 const mainReducer = (state = initialState, action) => {
   // lo scopo del reducer è ritornare sempre il NUOVO stato dell'applicativo
   // il reducer si muove secondo dei BINARI prestabiliti
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case ADD_TO_CART:
       // ritornare sempre il NUOVO stato dell'applicativo
       // action.payload
       return {
@@ -30,7 +33,7 @@ const mainReducer = (state = initialState, action) => {
         },
       }
 
-    case 'REMOVE_FROM_CART':
+    case REMOVE_FROM_CART:
       return {
         ...state,
         cart: {
@@ -42,6 +45,7 @@ const mainReducer = (state = initialState, action) => {
           //     action.payload + 1,
           //     state.cart.content.length
           //   ),
+          // ],
           // METODO DEL FILTER
           content: state.cart.content.filter((book, i) => {
             if (i !== action.payload) {

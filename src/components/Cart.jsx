@@ -1,6 +1,7 @@
 import { Col, Row, Button } from 'react-bootstrap'
 import { FaTrash } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
+import { REMOVE_FROM_CART } from '../redux/actions'
 
 const Cart = () => {
   // BOSS FINALE: il componente Cart deve LEGGERE dallo store e INNESCARE
@@ -22,7 +23,7 @@ const Cart = () => {
                 variant="danger"
                 onClick={() => {
                   dispatch({
-                    type: 'REMOVE_FROM_CART',
+                    type: REMOVE_FROM_CART,
                     payload: i,
                   })
                 }}
