@@ -2,26 +2,21 @@
 // il reducer di Redux è una funzione pura che non manipola mai i suoi parametri
 // e ritorna sempre il NUOVO STATO per l'applicativo
 
-import { ADD_TO_CART, REMOVE_FROM_CART, SET_USERNAME } from '../actions'
+import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions'
 
 const initialState = {
   // qui inserisco lo stato iniziale dell'intera app!
   // poichè in questo stato condiviso tendono a finire tantissime proprietà
   // in progetti corposi, è meglio NON lanciare tutto alla rinfusa!
   // per questo motivo si tende a dividerlo in "fette" (slices)
-  cart: {
-    content: [],
-  },
-  user: {
-    name: '', // valore falsy inizialmente
-  },
+  content: [],
 }
 
 // '' -> falsy
 // ' ' -> truthy
 
 // il reducer si sveglia ogni qualvolta una action viene "dispatchata"
-const mainReducer = (state = initialState, action) => {
+const cartReducer = (state = initialState, action) => {
   // lo scopo del reducer è ritornare sempre il NUOVO stato dell'applicativo
   // il reducer si muove secondo dei BINARI prestabiliti
   switch (action.type) {
@@ -32,45 +27,31 @@ const mainReducer = (state = initialState, action) => {
         // qui cosa faccio? NON POSSO UTILIZZARE PUSH, SPLICE, POP e TUTTI
         // i metodi MUTATIVI degli array!
         ...state,
-        cart: {
-          ...state.cart,
-          content: state.cart.content.concat(action.payload),
-          // content: [...state.cart.content, action.payload]
-        },
+        content: state.content.concat(action.payload),
+        // content: [...state.content, action.payload]
       }
 
     case REMOVE_FROM_CART:
       return {
         ...state,
-        cart: {
-          ...state.cart,
-          // METODO DELLE FETTE
-          // content: [
-          //   ...state.cart.content.slice(0, action.payload),
-          //   ...state.cart.content.slice(
-          //     action.payload + 1,
-          //     state.cart.content.length
-          //   ),
-          // ],
-          // METODO DEL FILTER
-          content: state.cart.content.filter((book, i) => {
-            if (i !== action.payload) {
-              return true
-            } else {
-              return false
-            }
-          }),
-        },
+        // METODO DELLE FETTE
+        // content: [
+        //   ...state.content.slice(0, action.payload),
+        //   ...state.content.slice(
+        //     action.payload + 1,
+        //     state.content.length
+        //   ),
+        // ],
+        // METODO DEL FILTER
+        content: state.content.filter((book, i) => {
+          if (i !== action.payload) {
+            return true
+          } else {
+            return false
+          }
+        }),
       }
-    case SET_USERNAME:
-      // ritornare sempre il NUOVO stato dell'applicativo
-      return {
-        ...state, // questo per preservare cart!
-        user: {
-          ...state.user,
-          name: action.payload,
-        },
-      }
+
     default:
       // ritornare sempre il NUOVO stato dell'applicativo
       return state // se l'azione è sconosciuta, per NON FARE DANNI
@@ -78,4 +59,4 @@ const mainReducer = (state = initialState, action) => {
   }
 }
 
-export default mainReducer
+export default cartReducer
