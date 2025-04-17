@@ -2,6 +2,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import cartReducer from '../reducers/cart'
 import userReducer from '../reducers/user'
+import shopReducer from '../reducers/shop'
 
 // ri-combiniamo le fette per ri-creare la torta!
 // all'inizio, l'initialState era fatto da due sotto-oggetti: cart e user
@@ -9,6 +10,7 @@ import userReducer from '../reducers/user'
 const uniqueReducer = combineReducers({
   cart: cartReducer,
   user: userReducer,
+  shop: shopReducer,
 })
 
 const store = configureStore({

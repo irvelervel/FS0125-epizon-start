@@ -11,6 +11,10 @@ const Cart = () => {
     return state.cart.content // l'array
   })
 
+  const books = useSelector((state) => {
+    return state.shop.available
+  })
+
   const dispatch = useDispatch()
 
   return (
@@ -39,12 +43,15 @@ const Cart = () => {
       </Col>
       <Row>
         <Col sm={12} className="fw-bold mb-3 ms-4">
-          TOTALE:{' '}
-          {carrello.reduce(
-            (acc, currentValue) => acc + parseFloat(currentValue.price),
-            0
-          )}
-          $
+          <p>
+            TOTALE:{' '}
+            {carrello.reduce(
+              (acc, currentValue) => acc + parseFloat(currentValue.price),
+              0
+            )}
+            $
+          </p>
+          <p>Nello shop al momento abbiamo {books.length} libri!</p>
         </Col>
       </Row>
     </Row>
